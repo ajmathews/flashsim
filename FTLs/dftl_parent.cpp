@@ -171,11 +171,22 @@ void FtlImpl_DftlParent::resolve_mapping(Event &event, bool isWrite)
 
 		MPage current = trans_map[dlpn];
 		current.modified_ts = event.get_start_time();
-		if (isWrite)
+		if (isWrite) {
 			current.modified_ts++;
+		} else {
+			for (int i = 0; i < PREFETCH_SIZE; i++) {
+				MPage prefetch = trans_map[dlpn + i];
+				if (prefetch.cached == false) {
+					prefetch.modified_ts = prefetch.create_ts =
+							event.get_start_time();
+					prefetch.cached = true;
+					trans_map.replace(trans_map.begin() + dlpn + i, prefetch);
+				}
+			}
+		}
 		current.create_ts = event.get_start_time();
 		current.cached = true;
-		trans_map.replace(trans_map.begin()+dlpn, current);
+		trans_map.replace(trans_map.begin() + dlpn, current);
 
 		cmt++;
 	}

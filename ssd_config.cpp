@@ -172,6 +172,8 @@ uint NUMBER_OF_ADDRESSABLE_BLOCKS = 0;
 /* RAISSDs: Number of physical SSDs */
 uint RAID_NUMBER_OF_PHYSICAL_SSDS = 0;
 
+uint PREFETCH_SIZE = 0;
+
 void load_entry(char *name, double value, uint line_number) {
 	/* cheap implementation - go through all possibilities and match entry */
 	if (!strcmp(name, "RAM_READ_DELAY"))
@@ -232,6 +234,8 @@ void load_entry(char *name, double value, uint line_number) {
 		VIRTUAL_PAGE_SIZE = value;
 	else if (!strcmp(name, "RAID_NUMBER_OF_PHYSICAL_SSDS"))
 		RAID_NUMBER_OF_PHYSICAL_SSDS = value;
+	else if (!strcmp(name, "PREFETCH_SIZE"))
+		PREFETCH_SIZE = value;
 	else
 		fprintf(stderr, "Config file parsing error on line %u\n", line_number);
 	return;
@@ -302,6 +306,7 @@ void print_config(FILE *stream) {
 	fprintf(stream, "FTL_IMPLEMENTATION: %i\n", FTL_IMPLEMENTATION);
 	fprintf(stream, "PARALLELISM_MODE: %i\n", PARALLELISM_MODE);
 	fprintf(stream, "RAID_NUMBER_OF_PHYSICAL_SSDS: %i\n", RAID_NUMBER_OF_PHYSICAL_SSDS);
+	fprintf(stream, "PREFETCH_SIZE: %i\n", PREFETCH_SIZE);
 
 	return;
 }

@@ -79,6 +79,7 @@ extern const uint BUS_MAX_CONNECT;
 extern const double BUS_CHANNEL_FREE_FLAG;
 extern const uint BUS_TABLE_SIZE;
 /* extern const uint BUS_CHANNELS = 4; same as # of Packages, defined by SSD_SIZE */
+extern const uint PREFETCH_SIZE;
 
 /* Ssd class:
  * 	number of Packages per Ssd (size) */
